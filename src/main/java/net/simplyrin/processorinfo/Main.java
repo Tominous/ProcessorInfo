@@ -152,9 +152,9 @@ public class Main {
 	private static void printMemory(GlobalMemory memory) {
 		System.out.println("Memory: " + FormatUtil.formatBytes(memory.getAvailable()) + "/"
 				+ FormatUtil.formatBytes(memory.getTotal()));
-		/*VirtualMemory vm = memory.getVirtualMemory();
+		VirtualMemory vm = memory.getVirtualMemory();
 		System.out.println("Swap used: " + FormatUtil.formatBytes(vm.getSwapUsed()) + "/"
-				+ FormatUtil.formatBytes(vm.getSwapTotal())); */
+				+ FormatUtil.formatBytes(vm.getSwapTotal())); 
 	}
 
 	private static void printCpu(CentralProcessor processor) {
@@ -166,7 +166,7 @@ public class Main {
 		System.out.println("CPU, IOWait, and IRQ ticks @ 0 sec:" + Arrays.toString(prevTicks));
 		// Wait a second...
 		Util.sleep(1000);
-		//processor.updateAttributes();
+		processor.updateAttributes();
 		long[] ticks = processor.getSystemCpuLoadTicks();
 		System.out.println("CPU, IOWait, and IRQ ticks @ 1 sec:" + Arrays.toString(ticks));
 		long user = ticks[TickType.USER.getIndex()] - prevTicks[TickType.USER.getIndex()];
@@ -183,8 +183,8 @@ public class Main {
 				"User: %.1f%% Nice: %.1f%% System: %.1f%% Idle: %.1f%% IOwait: %.1f%% IRQ: %.1f%% SoftIRQ: %.1f%% Steal: %.1f%%%n",
 				100d * user / totalCpu, 100d * nice / totalCpu, 100d * sys / totalCpu, 100d * idle / totalCpu,
 				100d * iowait / totalCpu, 100d * irq / totalCpu, 100d * softirq / totalCpu, 100d * steal / totalCpu);
-		/*System.out.format("CPU load: %.1f%% (counting ticks)%n",
-				processor.getSystemCpuLoadBetweenTicks(prevTicks) * 100);*/
+		System.out.format("CPU load: %.1f%% (counting ticks)%n",
+				processor.getSystemCpuLoadBetweenTicks(prevTicks) * 100);
 		System.out.format("CPU load: %.1f%% (OS MXBean)%n", processor.getSystemCpuLoad() * 100);
 		double[] loadAverage = processor.getSystemLoadAverage(3);
 		System.out.println("CPU load averages:" + (loadAverage[0] < 0 ? " N/A" : String.format(" %.2f", loadAverage[0]))
@@ -192,10 +192,10 @@ public class Main {
 				+ (loadAverage[2] < 0 ? " N/A" : String.format(" %.2f", loadAverage[2])));
 		// per core CPU
 		StringBuilder procCpu = new StringBuilder("CPU load per processor:");
-		/*double[] load = processor.getProcessorCpuLoadBetweenTicks(prevProcTicks);
+		double[] load = processor.getProcessorCpuLoadBetweenTicks(prevProcTicks);
 		for (double avg : load) {
 			procCpu.append(String.format(" %.1f%%", avg * 100));
-		}*/
+		}
 		System.out.println(procCpu.toString());
 		long freq = processor.getVendorFreq();
 		if (freq > 0) {
